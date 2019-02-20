@@ -1,5 +1,5 @@
 const numbers = document.querySelectorAll(".numbers");
-const operations = document.querySelectorAll(".operators");
+const operations = document.querySelectorAll(".operator");
 
 const operators = "+-/*";
 
@@ -11,7 +11,7 @@ const decimal = document.querySelector(".decimal");
 const display = document.querySelector(".display");
 
 numbers.forEach((number) => {
-    number.addEventListener("click", (x) => {
+    number.addEventListener("click", () => {
         if (display.textContent == "ERROR") {
             display.textContent = "";
         }
@@ -20,7 +20,7 @@ numbers.forEach((number) => {
 });
 
 operations.forEach((operation) => {
-    operation.addEventListener("click", (x) => {
+    operation.addEventListener("click", () => {
         if (display.textContent == "ERROR") {
             display.textContent = "";
         }
@@ -28,28 +28,28 @@ operations.forEach((operation) => {
     })
 });
 
-clear.addEventListener("click", (x) => {
+clear.addEventListener("click", () => {
     display.textContent = "";
 });
 
 // Removes the last digit in the display
-back.addEventListener("click", (x) =>{
+back.addEventListener("click", () =>{
     display.textContent = display.textContent.slice(0, display.textContent.length -1);
 });
 
-decimal.addEventListener("click", (x) => {
+decimal.addEventListener("click", () => {
     stringOperations = display.textContent.match(/[^\d()]+|[\d.]+/g);
     if (stringOperations[stringOperations.length -1].indexOf(".") == -1) {
         display.textContent += ".";
     }
 });
 
-equal.addEventListener("click", (x) => {
+equal.addEventListener("click", () => {
     stringOperations = display.textContent.match(/[^\d()]+|[\d.]+/g);
     let product = 0;
 
     for (let i = 0; i < stringOperations.length; i++) {
-        if (operations.indexOf(stringOperations[i]) != -1) {
+        if (operators.indexOf(stringOperations[i]) != -1) {
             let ops = stringOperations[i];
             let number1 = +stringOperations[i-1];
             let number2 = +stringOperations[i+1];
@@ -57,7 +57,7 @@ equal.addEventListener("click", (x) => {
                 product = "ERROR";
                 break;
             }
-            product += operate(op, number1, number2);
+            product += operate(ops, number1, number2);
         }
     }
     if (stringOperations.length < 3) {
@@ -82,15 +82,15 @@ function divide(number1, number2) {
     return +(number1 / number2).toFixed(7);
 }
 
-function operate(operations, number1, number2) {
-    console.log(operations)
-    if(operations == "+") {
+function operate(operators, number1, number2) {
+    console.log(operators)
+    if(operators == "+") {
         return add(number1, number2);
-    } else if (operations == "-") {
+    } else if (operators == "-") {
         return subtract(number1, number2);
-    } else if (operations == "*") {
+    } else if (operators == "*") {
         return multiply(number1, number2);
-    } else if (operations == "/") {
+    } else if (operators == "/") {
         return divide(number1, number2);
     } else {
         return "Operation does not exist!";
